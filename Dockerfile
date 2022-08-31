@@ -15,7 +15,9 @@ COPY --from=jnlp /usr/share/jenkins/agent.jar /usr/share/jenkins/agent.jar
 RUN chmod +x /usr/local/bin/jenkins-agent &&\
     ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave
 
-RUN apt install unzip
+RUN apt-get update \
+  && apt-get -y install \
+    unzip
 
 USER ${user}
 
