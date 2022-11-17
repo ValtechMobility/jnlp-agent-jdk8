@@ -25,7 +25,8 @@ RUN apt-get update \
     unzip \
     curl \
     rsync \
-    openjdk-8-jdk
+    openjdk-8-jdk \
+    openssh-client
 
 USER ${user}
 
