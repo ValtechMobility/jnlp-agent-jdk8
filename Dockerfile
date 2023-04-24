@@ -18,8 +18,6 @@ RUN apt-get update \
   && apt-get -y install \
     software-properties-common
 
-RUN apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main'
-
 RUN apt-get update \
   && apt-get -y install \
     unzip \
