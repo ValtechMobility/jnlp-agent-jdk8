@@ -23,8 +23,14 @@ RUN apt-get update \
     unzip \
     curl \
     rsync \
-    openjdk-8-jdk \
     openssh-client
+    
+RUN apt install apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common -y
+RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+RUN apt update
+RUN apt install adoptopenjdk-8-hotspot -y
+RUN which java
 
 USER ${user}
 
