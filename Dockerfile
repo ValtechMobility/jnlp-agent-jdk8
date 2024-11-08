@@ -1,6 +1,6 @@
 FROM jenkins/inbound-agent:alpine as jnlp
 
-FROM jenkins/agent:latest-jdk11
+FROM jenkins/agent:latest-jdk17
 
 ARG version
 LABEL Description="This is a base image, which allows connecting Jenkins agents via JNLP protocols" Vendor="Jenkins project" Version="$version"
@@ -26,10 +26,10 @@ RUN apt-get update \
     openssh-client
     
 RUN apt install apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common -y
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
-RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
+RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
 RUN apt update
-RUN apt install adoptopenjdk-8-hotspot -y
+RUN apt install temurin-8-jdk -y
 RUN which java
 
 USER ${user}
